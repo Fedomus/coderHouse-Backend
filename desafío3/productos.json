@@ -1,0 +1,20 @@
+[
+  {
+    "nombre": "Heladera",
+    "precio": 100000,
+    "thumbnail": "asd",
+    "id": 1
+  },
+  {
+    "nombre": "Horno",
+    "precio": 40000,
+    "thumbnail": "asd",
+    "id": 2
+  },
+  {
+    "nombre": "Freezer",
+    "precio": 5000,
+    "thumbnail": "asd",
+    "id": 3
+  }
+]
