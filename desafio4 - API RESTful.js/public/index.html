@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+      <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <title></title>
+            <meta name="description" content="">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="">
+      </head>
+      <body>
+            <h3>Agregar Producto</h3>
+            <form action="/api/productos/" enctype="multipart/form-data" method="POST">
+                  <label for="nombre">Nombre:</label><br>
+                  <input type="text" id="fname" name="nombre"><br>
+
+                  <label for="apellido">Precio:</label><br>
+                  <input type="number" id="lname" name="precio"><br>
+
+                  <label for="thumbnail">Imagen:</label><br>
+                  <input type="file" name="thumbnail"><br>
+                  <br>
+                  <input type="submit" value="Agregar">
+            </form>
+            <br>
+      </body>
+</html>

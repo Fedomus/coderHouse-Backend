@@ -1,0 +1,20 @@
+[
+  {
+    "nombre": "Guitarra electrica ",
+    "precio": "98000",
+    "thumbnail": "1649722496213-thumbnail-Guitarra electrica -Guitarra electrica ",
+    "id": 1
+  },
+  {
+    "nombre": "Bateria",
+    "precio": "76000",
+    "thumbnail": "1649722513486-thumbnail-Bateria-Bateria",
+    "id": 2
+  },
+  {
+    "nombre": "Trompeta",
+    "precio": "57000",
+    "thumbnail": "1649722532648-thumbnail-Trompeta-Trompeta",
+    "id": 3
+  }
+]
