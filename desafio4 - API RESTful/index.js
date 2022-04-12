@@ -49,7 +49,7 @@ router.post('/', upload.single("thumbnail"), async (req, res) => {
   const file = req.file;
   productoAgregado.nombre = req.body.nombre;
   productoAgregado.precio = req.body.precio;
-  productoAgregado.thumbnail = file.filename + '-' + req.body.nombre;
+  productoAgregado.thumbnail = file.filename;
   await producto.save(productoAgregado);
   res.send('Producto agregado: ' + productoAgregado);
 })
