@@ -1,0 +1,30 @@
+
+
+<div class="container">
+
+      <h1>Ingrese Producto</h1>
+
+      <form action="/productos" method="POST">
+            <div class="mb-3">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
+
+            <div class="mb-3">
+                  <label for="precio" class="form-label">Precio</label>
+                  <input type="number" class="form-control" id="precio" name="precio" required>
+            </div>
+
+            <div class="mb-3">
+                  <label for="urlImg" class="form-label">URL Imagen</label>
+                  <input type="text" class="form-control" id="urlImg" name="urlImg" required>
+            </div>
+            <input type="submit" class="btn-primary">
+      </form>
+      <br>
+      <a href="/productos"><button>Ver Productos</button></a>
+
+</div>
+
+
+
