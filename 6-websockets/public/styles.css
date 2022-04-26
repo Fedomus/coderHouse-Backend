@@ -1,0 +1,23 @@
+.titulo {
+      text-align: center;
+}
+.container{ 
+      background-color: rgb(135, 195, 241);
+      border-radius: 10px;
+      margin: 20px;
+      padding: 40px !important;
+}
+.table {
+      background-color: white;
+      border-radius: 10px;
+      width: 90% !important;
+      margin: auto;
+}
+.mensajes {
+      background-color: white;
+      height: 100px;
+      border-radius: 5px;
+}
+.chat{
+      border-radius: 10px;
+}

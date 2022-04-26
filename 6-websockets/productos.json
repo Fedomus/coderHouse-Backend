@@ -1,0 +1,20 @@
+[
+  {
+    "nombre": "Guitarra",
+    "precio": "45000",
+    "thumbnail": "https://cdn0.iconfinder.com/data/icons/camping-and-adventure-without-backround-set-2/300/23-128.png",
+    "id": 1
+  },
+  {
+    "nombre": "Pua",
+    "precio": "50",
+    "thumbnail": "https://cdn2.iconfinder.com/data/icons/music-flat-pixel-perfect/64/music-47-256.png",
+    "id": 2
+  },
+  {
+    "nombre": "Teclado",
+    "precio": "78900",
+    "thumbnail": "https://cdn2.iconfinder.com/data/icons/music-flat-pixel-perfect/64/music-28-256.png",
+    "id": 3
+  }
+]

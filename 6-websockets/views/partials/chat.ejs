@@ -1,0 +1,19 @@
+
+<% socket.on('mensajes', data => { %>
+      <div>
+            <h1>Centro de Mensajes</h1><br>
+            <form onsubmit="addMessage(this)" class="chat">
+                  <input type="email" class="form-control" id="email" placeholder="Tu email"><br>
+                  <div class="mensajes" id="mensajes">
+                        <% data.map((elem, index) => { %>
+                        <%      return(`<p> %>
+                              <% <strong> $elem.email [elem.fecha]  </strong>%>
+                              <%      <em>elem.texto </em></p>`) %>
+                        <% }).join(" "); %>
+                  </div>
+                  <input type="text" class="form-control" id="texto" placeholder="Cuéntanos algo...">
+                  <input type="submit" value="Enviar">
+            </form>
+      </div>
+<% }) %>
+
