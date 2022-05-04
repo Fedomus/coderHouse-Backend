@@ -16,5 +16,11 @@
     "precio": "78900",
     "thumbnail": "https://cdn2.iconfinder.com/data/icons/music-flat-pixel-perfect/64/music-28-256.png",
     "id": 3
+  },
+  {
+    "nombre": "Batería",
+    "precio": "90000",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/rock-and-roll-2/64/drum-kit-set-musical-instruments-256.png",
+    "id": 4
   }
 ]

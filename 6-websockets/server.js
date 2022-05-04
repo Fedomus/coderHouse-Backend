@@ -23,7 +23,7 @@ let producto = new Contenedor('productos.json')
 let mensaje = new Mensajes('mensajes.json')
 
 app.get('/', (req, res) => {
-      res.render('pages/main');
+      res.render('partials/chat');
 });
 
 httpServer.listen(8080, function() {
