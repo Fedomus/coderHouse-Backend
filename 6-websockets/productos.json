@@ -22,5 +22,11 @@
     "precio": "90000",
     "thumbnail": "https://cdn3.iconfinder.com/data/icons/rock-and-roll-2/64/drum-kit-set-musical-instruments-256.png",
     "id": 4
+  },
+  {
+    "nombre": "ADASD",
+    "precio": "234",
+    "thumbnail": "qweq",
+    "id": 5
   }
 ]

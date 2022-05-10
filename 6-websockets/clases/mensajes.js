@@ -11,7 +11,7 @@ class Mensajes{
                   if (fs.existsSync(`./${this.nombreArchivo}`)) {
                         const data = await fs.promises.readFile(`./${this.nombreArchivo}`, 'utf-8');
                         let mensajes = JSON.parse(data);
-                        mensaje.fecha = Date.now();
+                        mensaje.fecha = new Date().toLocaleString();
                         mensajes.push(mensaje)
                         fs.writeFileSync(`./${this.nombreArchivo}`, JSON.stringify(mensajes, null, 2));
                   } else {

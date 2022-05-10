@@ -1,0 +1,11 @@
+{{#if data.length}}
+        {{#each data}}
+        <tr>
+            <td>{{this.nombre}}</td>
+            <td>${{this.precio}}</td>
+            <td><img width="50" src={{this.thumbnail}} alt="not found"></td>
+        </tr>
+        {{/each}}
+    </table>
+</div>
+{{/if}}

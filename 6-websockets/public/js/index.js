@@ -1,5 +1,32 @@
 const socket = io.connect();
 
+socket.on('mensajes', data => { 
+      renderMensajes(data);
+});
+
+socket.on('productos', data => {
+      renderProductos(data).then( html => document.getElementById('tabla').innerHTML = html)
+});
+
+function renderProductos(data) {
+      return fetch('templates/tablaProductos.hbs')
+            .then(respuesta => respuesta.text())
+            .then(plantilla => {
+                  const template = Handlebars.compile(plantilla);
+                  const html = template({ data })
+                  return html
+            })
+}
+
+function renderMensajes(data) {
+      const html = data.map((elem, index) => {
+            return(`<p>
+            <strong>${elem.email} [${elem.fecha}]</strong>:
+            <em>${elem.texto}</em></p>` )
+      }).join(" ");
+      document.getElementById('mensajes').innerHTML = html;
+}
+
 function addMessage(e) {
       const mensaje = {
             email: document.getElementById('email').value,
@@ -19,36 +46,4 @@ function addProduct(e) {
       return false;
 }
 
-socket.on('mensajes', data => { 
-      renderMensajes(data);
-});
-
-socket.on('productos', data => {
-      renderProductos(data)
-});
-
-function renderMensajes(data) {
-      const html = data.map((elem, index) => {
-            return(`<p>
-            <strong>${elem.email} [${elem.fecha}]</strong>:
-            <em>${elem.texto}</em></p>` )
-      }).join(" ");
-      document.getElementById('mensajes').innerHTML = html;
-}
-
-function renderProductos(data) {
-      if (data){
-            const html = data.map(element => {
-            return(`<tr> 
-                  <td>${element.nombre}</td>
-                  <td>$${element.precio}</td>
-                  <td><img src=${element.thumbnail} width="40px" height="40px"></td>
-                  </tr>`)
-            }).join(" ");            
-            document.getElementById('tabla').innerHTML = html;
-      } else {
-            let html = `<h4>No hay productos</h4>`;
-            document.getElementById('tabla').innerHTML = html;
-      }
-}
 
