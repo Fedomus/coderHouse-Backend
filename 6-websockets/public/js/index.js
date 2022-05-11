@@ -1,14 +1,14 @@
 const socket = io.connect();
 
-socket.on('mensajes', data => { 
-      renderMensajes(data);
-});
-
 socket.on('productos', data => {
       renderProductos(data).then( html => document.getElementById('tabla').innerHTML = html)
 });
 
-function renderProductos(data) {
+socket.on('mensajes', data => { 
+      renderMensajes(data);
+});
+
+async function renderProductos(data) {
       return fetch('templates/tablaProductos.hbs')
             .then(respuesta => respuesta.text())
             .then(plantilla => {
@@ -40,7 +40,7 @@ function addProduct(e) {
       const producto = {
             nombre: document.getElementById('nombre').value,
             precio: document.getElementById('precio').value,
-            thumbnail: document.getElementById('urlImg').value
+            foto: document.getElementById('urlImg').value
       }
       socket.emit('new-product', producto);
       return false;

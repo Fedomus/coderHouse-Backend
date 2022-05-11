@@ -1,5 +1,3 @@
-const {knexMensajes} = require('./options/sqlite3.js')
-
 class ContenedorMensajes{
       constructor(knex, tabla){
             this.knex = knex;
@@ -22,9 +20,20 @@ class ContenedorMensajes{
             await this.knex(this.tabla).insert(mensaje)
             .then(() => console.log('Mensaje guardado'))
       }
+
+      async getAll() {
+            const data = await this.knex(this.tabla).select('*')
+            .then( (result) => {
+                  return result
+            }).catch((err) => {
+                  console.log(err);
+            });
+            return data;
+      }
 }
 
-let dbMensajes = new ContenedorMensajes(knexMensajes, 'mensajes');
+module.exports = {ContenedorMensajes};
+
 
 
 

@@ -1,5 +1,3 @@
-const {knexProductos} = require('./options/mariadb.js')
-
 class ContenedorProductos{
       constructor(knex, tabla){
             this.knex = knex;
@@ -23,19 +21,19 @@ class ContenedorProductos{
       async getById(id) {
             await this.knex(this.tabla)
             .where({ id: id })
-            .then( (p) => { 
-                  console.log(p); 
+            .then( (p) => {
                   return p;
             })
             .catch( () => {console.log('No se encontro producto con ese id');})
       }
 
       async getAll() {
-            await this.knex.from(this.tabla).select('*')
-            .then( (rows) => {
-                  console.log(rows);
-                  return rows
+            const data  = await this.knex.select('*').from(this.tabla)
+            .then( (result) => {
+                  return result
             })
+            .catch( (err) => console.log(err))
+            return data
       }
 
       async deleteById(id) {
@@ -60,13 +58,5 @@ class ContenedorProductos{
       }
 }
 
-let dbProductos = new ContenedorProductos(knexProductos, 'productos');
 
-let producto = {
-      nombre: "Guitarra",
-      precio: 75000,
-      foto: "SDA"
-}
-
-
-dbProductos.getAll()
+module.exports = {ContenedorProductos}

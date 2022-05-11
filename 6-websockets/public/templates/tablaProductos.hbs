@@ -1,9 +1,9 @@
 {{#if data.length}}
         {{#each data}}
-        <tr>
+        <tr id="{{this.id}}">
             <td>{{this.nombre}}</td>
             <td>${{this.precio}}</td>
-            <td><img width="50" src={{this.thumbnail}} alt="not found"></td>
+            <td><img width="50" src={{this.foto}} alt="not found"></td>
         </tr>
         {{/each}}
     </table>
