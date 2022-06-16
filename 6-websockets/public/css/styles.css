@@ -22,3 +22,7 @@
 .chat{
       border-radius: 10px;
 }
+.chat-form{
+      width: 50%;
+      margin: auto
+}

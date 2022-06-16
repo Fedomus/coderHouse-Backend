@@ -1,0 +1,24 @@
+[
+	{
+		"author": {
+			"email": "Danie@adsas.com",
+			"nombre": "",
+			"apellido": "Gomez",
+			"edad": "23",
+			"alias": "Dani",
+			"avatar": "https://cdn2.iconfinder.com/data/icons/avatars-60/5985/29-Software_Assistant-256.png"
+		},
+		"texto": "Hola"
+	},
+	{
+		"author": {
+			"email": "d@w",
+			"nombre": "",
+			"apellido": "Lim",
+			"edad": "31",
+			"alias": "Fede",
+			"avatar": "https://cdn2.iconfinder.com/data/icons/avatars-60/5985/40-School_boy-256.png"
+		},
+		"texto": "Hola, todo bien?"
+	}
+]

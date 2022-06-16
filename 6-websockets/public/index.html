@@ -10,6 +10,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
             integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
             <script src="/socket.io/socket.io.js"></script>
             <script src="js/index.js"></script>
       </head>
@@ -50,12 +51,21 @@
                               </tbody>
                         </table>         
                   </div>
+                  <a href="http://localhost:8080/test", type="button">TEST</a>
             </div>
             <div class="container">
                   <div>
                         <h1>Centro de Mensajes</h1><br>
                         <form onsubmit="addMessage(this)" class="chat">
-                              <input type="email" class="form-control" id="email" placeholder="Tu email" name="email"><br>
+                              <div class="chat-form">
+                                    <input type="email" class="form-control" id="email" placeholder="email" name="email"><br>
+                                    <input type="text" class="form-control" id="nombre" placeholder="nombre" name="nombre"><br>
+                                    <input type="text" class="form-control" id="apellido" placeholder="apellido" name="apellido"><br>
+                                    <input type="number" class="form-control" id="edad" placeholder="edad" name="edad"><br>
+                                    <input type="text" class="form-control" id="alias" placeholder="alias" name="alias"><br>
+                                    <input type="text" class="form-control" id="avatar" placeholder="avatar" name="avatar"><br>   
+                              </div>
+                                
                               <div class="mensajes" id="mensajes">
                                     
                               </div>

@@ -4,9 +4,19 @@ socket.on('productos', data => {
       renderProductos(data).then( html => document.getElementById('tabla').innerHTML = html)
 });
 
+//----------------------------Desnormalizacion de mensajes-----------------------//
+const authorSchema = new schema.Entity("author", {}, {
+      idAttribute: 'email'
+})
+const mensajeSchema = new schema.Entity("mensajes", {
+      author: authorSchema
+})
+
 socket.on('mensajes', data => { 
-      renderMensajes(data);
+      const denormalizedMensajes = denormalize(data.result, mensajeSchema, data.entities)
+      renderMensajes(denormalizedMensajes);
 });
+
 
 async function renderProductos(data) {
       return fetch('templates/tablaProductos.hbs')
@@ -30,6 +40,11 @@ function renderMensajes(data) {
 function addMessage(e) {
       const mensaje = {
             email: document.getElementById('email').value,
+            nombre: document.getElementById('nombre').value,
+            apellido: document.getElementById('apellido').value,
+            edad: document.getElementById('edad').value,
+            alias: document.getElementById('alias').value,
+            avatar: document.getElementById('avatar').value,
             texto: document.getElementById('texto').value
       };
       socket.emit('new-message', mensaje);
