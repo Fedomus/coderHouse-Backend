@@ -10,9 +10,8 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
             integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-            <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
             <script src="/socket.io/socket.io.js"></script>
-            <script src="js/index.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
       </head>
       <body>
             <div  class="container">
@@ -53,9 +52,10 @@
                   </div>
                   <a href="http://localhost:8080/test", type="button">TEST</a>
             </div>
-            <div class="container">
+            <div class="containerMensajes">
                   <div>
-                        <h1>Centro de Mensajes</h1><br>
+                        <h1>Centro de Mensajes</h1>
+                        <p id="compresion"></p>
                         <form onsubmit="addMessage(this)" class="chat">
                               <div class="chat-form">
                                     <input type="email" class="form-control" id="email" placeholder="email" name="email"><br>
@@ -69,14 +69,16 @@
                               <div class="mensajes" id="mensajes">
                                     
                               </div>
-                              <input type="text" class="form-control" id="texto" placeholder="Cuéntanos algo..." name="texto">
+                              <input type="text" class="form-control" id="texto" placeholder="..." name="texto">
                               <input type="submit" value="Enviar">
                         </form>
                   </div>
             </div>
             <footer>
+                  <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.2/index.d.ts"></script>
                   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
                   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+                  <script src="js/index.js"></script>
             </footer>
       </body>
 </html>

@@ -25,7 +25,7 @@ let MensajesDaoArchivo = require("./src/daos/mensajes/MensajesDaoArchivo")
 let dbProductos = new ProductosDaoSql();
 let dbMensajes = new MensajesDaoArchivo();
 
-app.get('/api/productos-test', async (req, res) => {
+app.get('/api/productos-test', async (req, res) => { 
       try {
             res.json(await apiProductos.generarProductos())
       } catch (error) {
@@ -34,42 +34,48 @@ app.get('/api/productos-test', async (req, res) => {
 })
 
 app.get('/test', (req, res) => {
-      res.sendFile(__dirname + '/public/tabla.html')
+      res.sendFile(__dirname + '/public/tablaMocks.html')
 })
 
 
-httpServer.listen(8080, function() {
-      console.log('Servidor corriendo en http://localhost:8080');
-});
+//----------------------Normalizacion de mensajes---------------------//
+const authorSchema = new schema.Entity("author", {}, {idAttribute:'id'})
+const mensajeSchema = new schema.Entity("mensaje", { author: authorSchema }, {idAttribute: '_id'})
+const mensajesSchema = new schema.Entity("mensajes", { mensaje: [mensajeSchema] }, { idAttribute: 'id' })
+const normalizarMensajes = (mensajesConId) => normalize(mensajesConId, mensajesSchema)
 
+async function listarMensajesNormalizados() {
+      const mensajes = await dbMensajes.getAll()
+      const normalizados = normalizarMensajes({ id: 'mensajes', mensajes })
+      return normalizados
+}
 
 
 
 io.on('connection', async function(socket) {
-      const mensajes = dbMensajes.getAll()
-
-      //----------------------Normalizacion de mensajes---------------------//
-      const authorSchema = new schema.Entity("author", {}, {
-            idAttribute: 'email'
-      })
-      const mensajeSchema = new schema.Entity("mensajes", {
-            author: authorSchema
-      })
-      const normalizedMensajes = normalize(mensajes, mensajeSchema)
-
       const productos = await dbProductos.getAll().then((result) => {return result})
       console.log('Un cliente se ha conectado');
       io.sockets.emit('productos', productos);
-      io.sockets.emit('mensajes', normalizedMensajes);
+      io.sockets.emit('mensajes', await listarMensajesNormalizados());
 
-      console.log(util.inspect(normalizedMensajes, false, 12, true));
+      console.log(util.inspect(await listarMensajesNormalizados(), false, 12, true));
 
       socket.on('new-message', async data => {
             await dbMensajes.save(data);
-            io.sockets.emit('mensajes', normalizedMensajes);
+            io.sockets.emit('mensajes', await listarMensajesNormalizados());
       });
       socket.on('new-product', async data => {
             await dbProductos.save(data);
             io.sockets.emit('productos', productos);
       });
+});
+
+
+
+
+
+
+
+httpServer.listen(8080, function() {
+      console.log('Servidor corriendo en http://localhost:8080');
 });

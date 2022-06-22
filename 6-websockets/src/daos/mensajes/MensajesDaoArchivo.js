@@ -10,8 +10,9 @@ class MensajesDaoMongo extends ContenedorMongo {
             let mensajes = this.getAll();
             let mensaje = 
             {
+                  id: "mensjaes",
                   author: {
-                        email: data.email,
+                        id: data.email,
                         nombre: data.nombre,
                         apellido: data.apellido,
                         edad: data.edad,

@@ -1,24 +1,38 @@
 [
-	{
+	{	
+		"id" : "mensajes",
 		"author": {
-			"email": "Danie@adsas.com",
+			"id": "fede@gmail.com",
 			"nombre": "",
-			"apellido": "Gomez",
-			"edad": "23",
-			"alias": "Dani",
-			"avatar": "https://cdn2.iconfinder.com/data/icons/avatars-60/5985/29-Software_Assistant-256.png"
-		},
-		"texto": "Hola"
-	},
-	{
-		"author": {
-			"email": "d@w",
-			"nombre": "",
-			"apellido": "Lim",
+			"apellido": "Limousin",
 			"edad": "31",
 			"alias": "Fede",
+			"avatar": "https://cdn2.iconfinder.com/data/icons/avatars-60/5985/29-Software_Assistant-256.png"
+		},
+		"texto": "Hola pepe"
+	},
+	{
+		"id" : "mensajes",
+		"author": {
+			"id": "pepe@gmail.com",
+			"nombre": "",
+			"apellido": "Gomez",
+			"edad": "26",
+			"alias": "pepe",
 			"avatar": "https://cdn2.iconfinder.com/data/icons/avatars-60/5985/40-School_boy-256.png"
 		},
-		"texto": "Hola, todo bien?"
+		"texto": "Hola fede todo bien?"
+	},
+	{
+		"id" : "mensajes",
+		"author": {
+			"id": "fede@gmail.com",
+			"nombre": "",
+			"apellido": "Limousin",
+			"edad": "31",
+			"alias": "Fede",
+			"avatar": "asd"
+		},
+		"texto": "Si"
 	}
 ]
