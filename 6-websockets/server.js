@@ -5,6 +5,15 @@ const { Server: IOServer } = require('socket.io')
 const { schema, normalize } = require('normalizr')
 const util = require('util')
 
+const apiProductosMock = require('./src/api/productos')
+const apiProductos = new apiProductosMock();
+
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+//------------Persistencia por MongoDB------------//
+const MongoStore = require('connect-mongo')
+const advancedOptions = { useNewUrlParser:true, useUnifiedTopology: true }
+
 //----------------Inicializaciones----------------//
 const app = express()
 const httpServer = new HttpServer(app)
@@ -12,10 +21,18 @@ const io = new IOServer(httpServer)
 
 //----------------Middlewares--------------------//
 // app.set('views', './views');
-app.set('view engine', 'ejs');
 app.use(express.static('public'));
-const apiProductosMock = require('./src/api/productos')
-const apiProductos = new apiProductosMock();
+app.use(cookieParser());
+app.use(session({
+      store: MongoStore.create({
+            mongoUrl: 'mongodb+srv://test:test@cluster0.b3jaw.mongodb.net/appchat?retryWrites=true&w=majority' ,
+            mongoOptions: advancedOptions
+      }),
+      secret: 'coderhouse',
+      resave: false,
+      saveUninitialized: false
+}))
+
 
 //-------Se importa y se instancia clase productosDaoSql y clase mensajesDaoArchivo--------//
 let ProductosDaoSql = require("./src/daos/productos/ProductosDaoSql");
@@ -33,6 +50,9 @@ app.get('/api/productos-test', async (req, res) => {
 })
 app.get('/test', (req, res) => {
       res.sendFile(__dirname + '/public/tablaMocks.html')
+})
+app.get('/login', (req, res) => {
+      res.sendFile(__dirname + '/public/login.html')
 })
 
 

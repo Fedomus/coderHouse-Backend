@@ -33,7 +33,7 @@ async function renderProductos(data) {
 function renderMensajes(data, compresion) {
       const html = data.mensajes.map((elem, index) => {
             return(`<p>
-            <strong>${elem.email} [${elem.fecha}]</strong>:
+            <strong>${elem.author.id} [${elem.fecha}]</strong>:
             <em>${elem.texto}</em></p>` )
       }).join(" ");
       document.getElementById('mensajes').innerHTML = html;
