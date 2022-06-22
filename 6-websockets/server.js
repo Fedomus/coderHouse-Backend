@@ -2,7 +2,7 @@
 const express = require('express')
 const { Server: HttpServer } = require('http')
 const { Server: IOServer } = require('socket.io')
-const { schema, normalize, denormalize } = require('normalizr')
+const { schema, normalize } = require('normalizr')
 const util = require('util')
 
 //----------------Inicializaciones----------------//
@@ -14,17 +14,16 @@ const io = new IOServer(httpServer)
 // app.set('views', './views');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-
 const apiProductosMock = require('./src/api/productos')
 const apiProductos = new apiProductosMock();
 
 //-------Se importa y se instancia clase productosDaoSql y clase mensajesDaoArchivo--------//
 let ProductosDaoSql = require("./src/daos/productos/ProductosDaoSql");
 let MensajesDaoArchivo = require("./src/daos/mensajes/MensajesDaoArchivo")
-
 let dbProductos = new ProductosDaoSql();
 let dbMensajes = new MensajesDaoArchivo();
 
+//----------------Rutas de mocks api---------------------//
 app.get('/api/productos-test', async (req, res) => { 
       try {
             res.json(await apiProductos.generarProductos())
@@ -32,7 +31,6 @@ app.get('/api/productos-test', async (req, res) => {
             next(error);
       }
 })
-
 app.get('/test', (req, res) => {
       res.sendFile(__dirname + '/public/tablaMocks.html')
 })
@@ -70,12 +68,7 @@ io.on('connection', async function(socket) {
       });
 });
 
-
-
-
-
-
-
+//----------------Server on---------------------//
 httpServer.listen(8080, function() {
       console.log('Servidor corriendo en http://localhost:8080');
 });
