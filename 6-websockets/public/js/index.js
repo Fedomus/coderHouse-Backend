@@ -20,6 +20,10 @@ socket.on('mensajes', data => {
       renderMensajes(denormalizedMensajes, compresion);
 });
 
+function renderNavbar(username) {
+      
+}
+
 async function renderProductos(data) {
       return fetch('templates/tablaProductos.hbs')
             .then(respuesta => respuesta.text())

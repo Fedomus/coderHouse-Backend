@@ -10,12 +10,32 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
             integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-            <script src="js/.js"></script>
+            <script src="js/login.js"></script>
       </head>
       <body>
-            <div  class="containerLogin">
-                  
+            <div class ="container">
+                  <div class="container-login">
+                        <h2>Iniciar sesión</h2>
+                        <br>
+                        <form href="http://localhost:8080/" method="'POST">
+                              <div class="mb-3 row">
+                                    <label for="exampleFormControlInput1" class="col-sm-2 col-form-label">Username</label>
+                                    <div class="col-sm-10">
+                                          <input type="text" class="form-control" id="username" name="username">
+                                    </div>
+                              </div>
+                              <div class="mb-3 row">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                                    <div class="col-sm-10">
+                                          <input type="password" class="form-control" id="inputPassword" name="password">
+                                    </div>
+                                    <input type="submit" class="btn btn-success" value="Aceptar">
+                              </div>
+                        </form> 
+                       
+                  </div>
             </div>
+            
             <footer>
                   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
                   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>

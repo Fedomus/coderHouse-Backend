@@ -21,7 +21,7 @@ const io = new IOServer(httpServer)
 
 //----------------Middlewares--------------------//
 // app.set('views', './views');
-app.use(express.static('public'));
+app.use(express.static('/public'))
 app.use(cookieParser());
 app.use(session({
       store: MongoStore.create({
@@ -51,8 +51,52 @@ app.get('/api/productos-test', async (req, res) => {
 app.get('/test', (req, res) => {
       res.sendFile(__dirname + '/public/tablaMocks.html')
 })
-app.get('/login', (req, res) => {
+
+app.get('/', (req, res) => {
+      if(req.session.logged){
+            res.sendFile(__direname + './public/index.html')
+      }
       res.sendFile(__dirname + '/public/login.html')
+})
+
+app.post('/login', (req, res) => {
+      const data = req.body
+      console.log(data);
+      if(data.username !== 'coderhouse' || data.password !== 'coder2022'){
+            return res.send('Usuario o contraseña incorrecto')
+      } 
+
+      if(username == 'coderhouse' && password == 'coder2022'){
+            req.session.user = username
+            req.session.admin = true
+            req.session.logged = true
+      } 
+
+      if(username == 'fede' && password == 'coder2022'){
+            req.session.user = username
+            req.session.admin = false
+            req.session.logged = true
+      } 
+})
+
+function checklogged(req, res, next){
+      if(req.session?.logged){
+            return next()
+      } else {
+            res.status(401).send('error de autorización!')
+      }
+}
+
+function auth(req, res, next){
+      if(req.session?.admin && req.session?.logged){
+            return next()
+      } else {
+            res.status(401).send('error de autorización!')
+      }
+}
+
+app.get('/login', auth, (req, res) => {
+      res.json({cliente: req.session.user})
 })
 
 
@@ -67,7 +111,6 @@ async function listarMensajesNormalizados() {
       const normalizados = normalizarMensajes({ id: 'mensajes', mensajes })
       return normalizados
 }
-
 
 
 io.on('connection', async function(socket) {
@@ -87,6 +130,7 @@ io.on('connection', async function(socket) {
             io.sockets.emit('productos', productos);
       });
 });
+
 
 //----------------Server on---------------------//
 httpServer.listen(8080, function() {

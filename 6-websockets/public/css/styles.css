@@ -33,3 +33,10 @@
       width: 100%;
       margin: auto
 }
+.container-login{
+      background-color: rgb(135, 195, 241);
+      border-radius: 10px;
+      margin: 50px;
+      padding: 40px !important;
+      width: 50%
+}
