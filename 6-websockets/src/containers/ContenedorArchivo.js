@@ -39,6 +39,16 @@ class ContainerArchivo{
             }
       }
 
+      getByName(name){
+            let data = this.getAll();
+            let elem = data.find( e => e.name == name) || null;
+            if (elem){
+                  return elem;
+            } else {
+                  console.log('No se encontro ese nombre');
+            }
+      }
+
       deleteById(id){
             let data = this.getAll();
             let elem = this.getById(id);

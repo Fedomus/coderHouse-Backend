@@ -1,6 +1,7 @@
 const {generarProducto} = require('../utils/generadorProductos')
 const {generarId} = require('../utils/generadorIds')
 
+
 class ApiProductosMock {
         constructor() {
             

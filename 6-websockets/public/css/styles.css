@@ -1,6 +1,12 @@
 .titulo {
       text-align: center;
 }
+.navbar{
+      background-color: rgb(135, 195, 241);
+      border-radius: 10px;
+      margin: 20px;
+      padding: 40px !important;
+}
 .container{ 
       background-color: rgb(135, 195, 241);
       border-radius: 10px;
