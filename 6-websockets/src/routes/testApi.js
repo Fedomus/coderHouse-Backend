@@ -4,8 +4,8 @@ const test = Router()
 const apiProductosMock = require('../api/productos')
 const apiProductos = new apiProductosMock();
 
-//----------------Rutas de mocks api---------------------//
-test.get('/api/productos-test', async (req, res) => { 
+//----------------MOCK API ROUTES---------------------//
+test.get('/productos', async (req, res) => { 
       try {
             res.json(await apiProductos.generarProductos())
       } catch (error) {
@@ -13,7 +13,7 @@ test.get('/api/productos-test', async (req, res) => {
       }
 })
 test.get('/', (req, res) => {
-      res.render('pages/index.ejs', {productos: productos})
+      res.render('pages/test.ejs', {productos: apiProductos})
 })
 
 module.exports = test

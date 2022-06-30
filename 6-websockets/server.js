@@ -2,8 +2,6 @@
 const express = require('express')
 const { Server: HttpServer } = require('http')
 const { Server: IOServer } = require('socket.io')
-const session = require('express-session')
-const cookieParser = require('cookie-parser')
 
 //----------------Se inicializa la aplicación----------------//
 const app = express()
@@ -16,14 +14,9 @@ httpServer.listen(port, function() {
       console.log('Servidor corriendo en http://localhost:8080');
 });
 
-//----------------SOCKETS------------------//
-let MensajesDaoArchivo = require("./src/daos/mensajes/MensajesDaoArchivo")
-let dbMensajes = new MensajesDaoArchivo();
-const {listarMensajesNormalizados} = require('./normalizacion/normalizacionMensajes')
-let ProductosDaoSql = require("./src/daos/productos/ProductosDaoSql");
-let dbProductos = new ProductosDaoSql();
-
-//------------Persistencia sesion por MongoDB------------//
+//------------Persistencia de sesion MongoDB------------//
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
 const MongoStore = require('connect-mongo')
 const advancedOptions = { useNewUrlParser:true, useUnifiedTopology: true }
 
@@ -31,11 +24,11 @@ const advancedOptions = { useNewUrlParser:true, useUnifiedTopology: true }
 const test = require('./src/routes/testApi')
 const auth = require('./src/routes/authentications');
 
-
-
+//Seteo de EJS
 app.set('view engine', 'ejs');
 
-//----------------Middlewares--------------------//
+
+//---------------------Middlewares----------------------//
 // app.set('views', './views');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -58,6 +51,9 @@ app.use(session({
       }
 }))
 
+
+//---------------------------------------------------RUTAS----------------------------------------------------------------//
+//Home
 app.get('/', (req, res) => {
       if(req.session.loggedAdmin){
             res.render('pages/index.ejs', {loggedUser: false, loggedAdmin: true, username: req.session.username})
@@ -67,7 +63,7 @@ app.get('/', (req, res) => {
             res.render('pages/index.ejs', {loggedUser: false, loggedAdmin: false, username: null})
       }
 })
-
+//Login
 app.post('/login', (req, res) => {
       const { username, password } = req.body
       if (username == 'admin' && password == 'admin123'){
@@ -82,7 +78,7 @@ app.post('/login', (req, res) => {
             res.redirect('http://localhost:8080/')
       }
 })
-
+//Logout
 app.get('/logout', (req, res) => {
       let username = req.session.username;
       req.session.destroy( error => {
@@ -94,14 +90,26 @@ app.get('/logout', (req, res) => {
       })
 })
 
-io.on('connection', (socket) => {
-      const productos = dbProductos.getAll().then((result) => {return result})
+
+//------------------------------SOCKETS-----------------------------//
+//Importaciones
+let MensajesDaoArchivo = require("./src/daos/mensajes/MensajesDaoArchivo")
+let dbMensajes = new MensajesDaoArchivo();
+let ProductosDaoSql = require("./src/daos/productos/ProductosDaoSql");
+let dbProductos = new ProductosDaoSql();
+//Mensajes normalizados
+const {listarMensajesNormalizados} = require('./normalizacion/normalizacionMensajes')
+//
+io.on('connection', async (socket) => {
+      const mensajes = await listarMensajesNormalizados();
+      const productos = await dbProductos.getAll().then((result) => {return result})
+      console.log(productos);
       console.log('Un cliente se ha conectado');
       io.sockets.emit('productos', productos);
-      io.sockets.emit('mensajes', listarMensajesNormalizados());
+      io.sockets.emit('mensajes', mensajes);
       socket.on('new-message', async data => {
-            await dbMensajes.save(data);
-            io.sockets.emit('mensajes', listarMensajesNormalizados());
+            dbMensajes.save(data);
+            io.sockets.emit('mensajes', mensajes);
       });
       socket.on('new-product', async data => {
             await dbProductos.save(data);

@@ -1,8 +1,7 @@
-fetch('http://localhost:8080/api/productos-test')
+fetch('http://localhost:8080/test/productos')
 .then((data) => data.json())
 .then( async data => document.getElementById('tabla').innerHTML = await renderProductosMocks(data))
 .catch((err) => console.log(err));
-
 
 async function renderProductosMocks(data) {
       return fetch('./templates/tablaProductos.hbs')
