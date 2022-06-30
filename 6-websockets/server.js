@@ -103,7 +103,6 @@ const {listarMensajesNormalizados} = require('./normalizacion/normalizacionMensa
 io.on('connection', async (socket) => {
       const mensajes = await listarMensajesNormalizados();
       const productos = await dbProductos.getAll().then((result) => {return result})
-      console.log(productos);
       console.log('Un cliente se ha conectado');
       io.sockets.emit('productos', productos);
       io.sockets.emit('mensajes', mensajes);
