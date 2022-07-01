@@ -4,21 +4,26 @@
       </head>
       <body>
             <% if (loggedAdmin) {%>
-            <%- include('../partials/navLogged'); %>
-            <%- include('../partials/addProduct'); %>
-            <%- include('../partials/products'); %>
-            <%- include('../partials/chat'); %>
+                  <%- include('../partials/navLogged'); %>
+                  <%- include('../partials/addProduct'); %>
+                  <%- include('../partials/products'); %>
+                  <%- include('../partials/chat'); %>
 
             <% } else if (loggedUser) {%>
-            <%- include('../partials/navLogged'); %>
-            <%- include('../partials/products'); %>
-            <%- include('../partials/chat'); %>
+                  <%- include('../partials/navLogged'); %>
+                  <%- include('../partials/products'); %>
+                  <%- include('../partials/chat'); %>
 
             <% } else if (username) {%>
                   <%- include('../partials/navLogout') %>
 
+            <% } else if (signup) {%>
+                  <%- include('../partials/signup'); %>
+
             <% } else { %>
+      
                   <%- include('../partials/navLogin'); %>
+                  
             <% } %>
             
             <footer>

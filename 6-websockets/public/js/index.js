@@ -36,8 +36,8 @@ async function renderProductos(data) {
 
 function renderMensajes(data, compresion) {
       const html = data.mensajes.map((elem, index) => {
-            return(`<p>
-            <strong>${elem.author.id} [${elem.fecha}]</strong>:
+            return(`<p><img src="${elem.author.avatar}" style="width:20px;height:20px">
+            <strong>${elem.author.nombre} [${elem.fecha}]</strong>:
             <em>${elem.texto}</em></p>` )
       }).join(" ");
       document.getElementById('mensajes').innerHTML = html;
@@ -46,12 +46,7 @@ function renderMensajes(data, compresion) {
 
 function addMessage(e) {
       const mensaje = {
-            email: document.getElementById('email').value,
-            nombre: document.getElementById('nombre').value,
-            apellido: document.getElementById('apellido').value,
-            edad: document.getElementById('edad').value,
-            alias: document.getElementById('alias').value,
-            avatar: document.getElementById('avatar').value,
+            username: document.getElementById('username').innerText,
             texto: document.getElementById('texto').value
       };
       socket.emit('new-message', mensaje);

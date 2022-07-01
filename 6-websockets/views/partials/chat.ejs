@@ -3,19 +3,8 @@
             <h2>Centro de Mensajes</h2>
             <br>
             <p id="compresion"></p>
-            <form onsubmit="addMessage(this)" class="chat">
-                  <div class="chat-form">
-                        <input type="email" class="form-control" id="email" placeholder="email" name="email"><br>
-                        <input type="text" class="form-control" id="nombre" placeholder="nombre" name="nombre"><br>
-                        <input type="text" class="form-control" id="apellido" placeholder="apellido" name="apellido"><br>
-                        <input type="number" class="form-control" id="edad" placeholder="edad" name="edad"><br>
-                        <input type="text" class="form-control" id="alias" placeholder="alias" name="alias"><br>
-                        <input type="text" class="form-control" id="avatar" placeholder="avatar" name="avatar"><br>   
-                  </div>
-                    
-                  <div class="mensajes" id="mensajes">
-                        
-                  </div>
+            <form onsubmit="addMessage(this)" class="chat">  
+                  <div class="mensajes" id="mensajes" style="height:400px"></div>
                   <input type="text" class="form-control" id="texto" placeholder="..." name="texto">
                   <input type="submit" value="Enviar">
             </form>

@@ -1,31 +1,31 @@
-const ContenedorMongo = require('../../containers/ContenedorArchivo.js')
+const ContenedorArchivo = require('../../containers/ContenedorArchivo.js')
 
-class MensajesDaoMongo extends ContenedorMongo {
+class MensajesDaoArchivo extends ContenedorArchivo {
 
       constructor(){
             super('./src/data/mensajes.json')
       }
 
-      save(data) {
+      save(texto, user) {
             let mensajes = this.getAll();
             let mensaje = 
             {
-                  id: "mensjaes",
+                  id: "mensajes",
                   author: {
-                        id: data.email,
-                        nombre: data.nombre,
-                        apellido: data.apellido,
-                        edad: data.edad,
-                        alias: data.alias,
-                        avatar: data.avatar,
+                        id: user.usuario.email,
+                        nombre: user.usuario.nombre,
+                        apellido: user.usuario.apellido,
+                        edad: user.usuario.edad,
+                        alias: user.usuario.alias,
+                        avatar: user.usuario.avatar,
                   },
-                  texto: data.texto
+                  texto: texto,
+                  fecha: new Date().toLocaleString()
             }
             mensajes.push(mensaje);
             this.saveData(mensajes);
             return mensaje;
       }
-      
 }
 
-module.exports = MensajesDaoMongo;
+module.exports = MensajesDaoArchivo;
