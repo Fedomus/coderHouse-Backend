@@ -1,6 +1,6 @@
 const { schema, normalize } = require('normalizr')
 const util = require('util')
-let MensajesDaoArchivo = require("../src/daos/mensajes/MensajesDaoArchivo")
+let MensajesDaoArchivo = require("../daos/mensajes/MensajesDaoArchivo")
 let dbMensajes = new MensajesDaoArchivo();
 
 const authorSchema = new schema.Entity("author", {}, {idAttribute:'id'})

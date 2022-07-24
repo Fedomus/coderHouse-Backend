@@ -1,0 +1,21 @@
+<div class="navbar">
+    <p>Bienvenido/a. Ingrese con sus datos o regístrese</p>
+      <form action="http://localhost:8080/login" method="POST">
+            <div class="mb-3 row">
+                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+
+                        <input type="text" class="form-control" id="inputEmail" name="email" required>
+
+            </div>
+            <div class="mb-3 row">
+                <label for="password" class="col-sm-2 col-form-label">Password</label>
+
+                        <input type="password" class="form-control" id="inputPassword" name="password" required>
+
+            </div>
+            <div class="btn-box">
+                <input class="btn btn-success" type="submit" value="Iniciar sesion">
+                <a href="http://localhost:8080/signup" class="btn btn-primary btn-signup">Registrarme</a>
+            </div>
+    </form>
+</div>

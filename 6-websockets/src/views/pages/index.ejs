@@ -14,11 +14,8 @@
                   <%- include('../partials/products'); %>
                   <%- include('../partials/chat'); %>
 
-            <% } else if (username) {%>
+            <% } else if (email) {%>
                   <%- include('../partials/navLogout') %>
-
-            <% } else if (signup) {%>
-                  <%- include('../partials/signup'); %>
 
             <% } else { %>
       
@@ -28,7 +25,6 @@
             
             <footer>
                   <%- include('../partials/footer')  %> 
-                  <script src="/js/index.js"></script>
             </footer>
       </body>
 </html>

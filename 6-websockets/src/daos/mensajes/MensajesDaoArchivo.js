@@ -12,12 +12,7 @@ class MensajesDaoArchivo extends ContenedorArchivo {
             {
                   id: "mensajes",
                   author: {
-                        id: user.usuario.email,
-                        nombre: user.usuario.nombre,
-                        apellido: user.usuario.apellido,
-                        edad: user.usuario.edad,
-                        alias: user.usuario.alias,
-                        avatar: user.usuario.avatar,
+                        id: user.email,
                   },
                   texto: texto,
                   fecha: new Date().toLocaleString()
