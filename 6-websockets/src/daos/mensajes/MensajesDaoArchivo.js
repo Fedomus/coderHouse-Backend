@@ -10,10 +10,7 @@ class MensajesDaoArchivo extends ContenedorArchivo {
             let mensajes = this.getAll();
             let mensaje = 
             {
-                  id: "mensajes",
-                  author: {
-                        id: user.email,
-                  },
+                  id: user.email,
                   texto: texto,
                   fecha: new Date().toLocaleString()
             }

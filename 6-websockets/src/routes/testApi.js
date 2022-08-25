@@ -5,9 +5,9 @@ const apiProductosMock = require('../api/productos')
 const apiProductos = new apiProductosMock();
 
 //----------------MOCK API ROUTES---------------------//
-test.get('/productos', async (req, res) => { 
+test.get('/productos', (req, res) => { 
       try {
-            res.json(await apiProductos.generarProductos())
+            res.json(apiProductos.generarProductos())
       } catch (error) {
             next(error);
       }

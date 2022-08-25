@@ -1,17 +1,6 @@
 .titulo {
       text-align: center;
 }
-.navbar{
-      background-color: rgb(135, 195, 241);
-      border-radius: 10px;
-      margin: 20px;
-      padding: 40px !important;
-      position: unset!important;
-      display: block!important;
-      max-width: 500px;
-      margin: auto;
-      margin-top: 2rem;
-}
 .navbar-error{
       background-color: rosybrown;
       border-radius: 10px;
@@ -32,19 +21,13 @@
       border-radius: 10px;
       margin: 20px;
       padding: 40px !important;
+      max-width: 800px !important;
 }
 .table {
       background-color: white;
       border-radius: 10px;
       width: 90% !important;
       margin: auto;
-}
-.containerMensajes{
-      background-color: rgb(135, 195, 241);
-      border-radius: 10px;
-      margin: 50px;
-      padding: 40px !important;
-      width: 50%
 }
 .mensajes {
       background-color: white;

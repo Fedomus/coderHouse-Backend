@@ -1,7 +1,9 @@
+const { FILE_PATH } = require('../src/config/globals')
+
 const knexMensajes = require('knex')({
       client: 'sqlite3',
       connection: { 
-            filename: 'C:/Users/feder/OneDrive/Documentos/Programación/coderHouse/Backend/coderHouse-Backend/6-websockets/src/data/ecommerce.sqlite3' 
+            filename: FILE_PATH
       },
       useNullAsDefault: true
 })

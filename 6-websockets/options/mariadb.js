@@ -1,10 +1,12 @@
+const { HOST, USER, PASS, DB } = require('../src/config/globals.js')
+
 const knexProductos = require('knex')({
       client: 'mysql',
       connection: {
-            host: '127.0.0.1',
-            user: 'root',
-            password: '',
-            database: 'ecommerce'
+            host: HOST,
+            user: USER,
+            password: PASS,
+            database: DB
       },
       pool: {min: 0, max: 10}
 })

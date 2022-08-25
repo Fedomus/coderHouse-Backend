@@ -1,5 +1,12 @@
+const UsuariosDaoMongo = require('../daos/usuarios/UsuariosDaoMongo')
+const dbUsers = new UsuariosDaoMongo()
+
 function getRoot(req, res) {
-      res.render('pages/index.ejs', {loggedUser: false, loggedAdmin: false, email: null})
+      res.render('pages/index.ejs', {
+            loggedUser: req.session.loggedUser || false, 
+            loggedAdmin: req.session.loggedAdmin || false, 
+            email: req.session.email || null
+      })
 }
 
 function getSignup(req, res) {
@@ -7,15 +14,7 @@ function getSignup(req, res) {
 }
 
 function postSignup (req, res) {
-      if (req.body.password1 == req.body.password2){
-            if (req.isAuthenticated()){
-                  res.redirect('/')
-            } else {
-                  res.json({error: 'Error de autenticación'})
-            }
-      } else {
-            res.json({error: 'Las contraseñas no son idénticas'})
-      }
+      res.redirect('/')
 }
 
 function getFailsignup (req, res) {
@@ -24,46 +23,99 @@ function getFailsignup (req, res) {
 }
 
 function postLogin (req, res) {
-      if(req.isAuthenticated()){
-            res.redirect('/profile')
-      } else {
-            res.redirect('/')
-      }
+      res.redirect('/')
 }
 
-function getFaillogin (req, res) {
+function getFailLogin (req, res) {
       console.log('error en login');
       res.render('pages/login-error.ejs', {});
 }
 
-function getProfile(req, res){
-      if(req.isAuthenticated()){
-            res.render('pages/index.ejs', {loggedUser: true, loggedAdmin: false, email: req.session.email})
-      } else {
-            res.redirect('/')
-      }
-}
-
 function getLogout (req, res) {
       let email = req.session.email;
-      req.logout( (err) => {
-            if (!err) {
-                  res.render('pages/index.ejs', {loggedUser: false, loggedAdmin: false, email: email})
-            } 
-      });
+      req.session.destroy( error => {
+            if (error) {
+                res.send({status: 'Logout Error', body: error})
+            }
+      })
+      res.redirect('/')
 }
 
 function failRoute(req, res){
       res.status(404).render('pages/routing-error.ejs', {});
 }
 
-function checkAuthentication(req, res, next) {
-      if (req.isAuthenticated()) {
-            next();
+function checkLogged (req, res, next) {
+      let loggedAdmin = req.session.loggedAdmin
+      let loggedUser = req.session.loggedUser
+      if (loggedAdmin || loggedUser){
+            next()
       } else {
-            res.redirect("/");
+            res.redirect('/')
       }
 }
 
+async function checkAuthentication(req, res, next) {
+      let {email, password} = req.body
+      if (email && password){
+            const auth = await dbUsers.authentication(email, password)
+            if (auth){
+                  if (email == 'admin@admin'){
+                        req.session.loggedAdmin = true
+                        req.session.loggedUser = false
+                  }
 
-module.exports = {getRoot, getSignup, postSignup, getFailsignup, postLogin, getFaillogin, getProfile, getLogout, failRoute, checkAuthentication}
+                  if (email != 'admin@admin'){
+                        req.session.loggedAdmin = false
+                        req.session.loggedUser = true
+                  }
+                  req.session.email = email
+                  next()
+            } else {
+                  res.json({error: 'Contraseña incorrecta'})
+            }
+      } else {
+            res.json({error: 'Alguno de los datos ingresados es incorrecto'})
+      }
+}
+
+async function checkUser(req, res, next){
+      let {email, password} = req.body
+      if (email && password){
+            const user = await dbUsers.checkUser(email)
+            if(user){
+                  res.json({error: 'Ya existe un usuario con ese email'})
+            } 
+            if(!user){
+                  await dbUsers.createUser(email, password)
+                  next()
+            }
+      }
+}
+
+function getInfo(req, res){
+      res.render('pages/info.ejs', {
+            argumentos: process.argv,
+            sistema: process.platform,
+            version: process.version,
+            memoria: process.memoryUsage().rss,
+            path: process.execPath,
+            id: process.pid,
+            directorio: process.cwd()
+      })
+}
+
+module.exports = {
+      getRoot, 
+      getSignup, 
+      postSignup, 
+      getFailsignup, 
+      postLogin, 
+      getFailLogin, 
+      getLogout, 
+      failRoute, 
+      checkLogged,
+      checkUser,
+      checkAuthentication,
+      getInfo
+}
