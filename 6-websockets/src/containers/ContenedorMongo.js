@@ -5,10 +5,6 @@ const mongoose =  require('mongoose')
 class ContainerMongo {
 
       constructor(model) {
-            mongoose.connect(MONGO_URI, {
-                  useNewUrlParser: true, 
-                  useUnifiedTopology: true
-            }, () => console.log('Connected'))
             this.model = model;
       }
 

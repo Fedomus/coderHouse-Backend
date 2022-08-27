@@ -7,5 +7,6 @@ module.exports = {
   USER: process.env.USER,
   PASS: process.env.PASS,
   DB: process.env.DB,
-  FILE_PATH: process.env.FILE_PATH
+  FILE_PATH: process.env.FILE_PATH,
+  NODE_ENV: process.env.NODE_ENV
 }

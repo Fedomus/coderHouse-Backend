@@ -21,4 +21,5 @@ function obtenerNumeros(cant){
 process.on('message', (cant) => {
       const numbers = obtenerNumeros(cant);
       process.send(numbers);
-  })
+})
+

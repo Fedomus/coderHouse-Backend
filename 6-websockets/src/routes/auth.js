@@ -93,17 +93,7 @@ async function checkUser(req, res, next){
       }
 }
 
-function getInfo(req, res){
-      res.render('pages/info.ejs', {
-            argumentos: process.argv,
-            sistema: process.platform,
-            version: process.version,
-            memoria: process.memoryUsage().rss,
-            path: process.execPath,
-            id: process.pid,
-            directorio: process.cwd()
-      })
-}
+
 
 module.exports = {
       getRoot, 
@@ -116,6 +106,5 @@ module.exports = {
       failRoute, 
       checkLogged,
       checkUser,
-      checkAuthentication,
-      getInfo
+      checkAuthentication
 }

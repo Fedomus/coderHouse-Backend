@@ -16,7 +16,8 @@ const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
 //Routes
 const test = require('./src/routes/testApi')
 const randoms = require('./src/routes/randomsApi')
-const routes = require('./src/routes/routes')
+const auth = require('./src/routes/auth')
+const info = require('./src/routes/info')
 //Usuarios
 const UsuariosDaoMongo = require('./src/daos/usuarios/UsuariosDaoMongo')
 const dbUsers = new UsuariosDaoMongo()
@@ -28,11 +29,45 @@ const dbProductos = new ProductosDaoSql();
 const {listarMensajesNormalizados} = require('./src/normalizacion/normalizacionMensajes')
 //Global process
 const parseArgs = require('minimist');
-const options = {p: 8080, m: "dev"}
+const options = {
+      alias: {
+          "p": "port",
+          "m": "modo"
+      },
+      default: {
+          "port": 8080,
+          "modo": "cluster"
+      }
+  };
 const args = parseArgs(process.argv.slice(2), options)
-const PUERTO = args.p || 8080
+const PUERTO = args.p
+const MODO = args.m
+const modoCluster = MODO == 'cluster'
+const numCPUs = require('os').cpus().length
+const enviroment = env.NODE_ENV
+// cluster
+const cluster = require('cluster')
+//compression
+const compression = require('compression')
 
+//----------------Se inicia el servidor en modo fork o cluster---------------------//
 
+if (modoCluster && cluster.isPrimary){
+      console.log(`Número de procesadores: ${numCPUs}`);
+      console.log(`PID Máster: ${process.pid}`);
+      for (let i = 0; i < numCPUs; i++) {
+            cluster.fork()
+      }
+      cluster.on('exit', worker => {
+            console.log(`Worker ${worker.process.pid} died ${new Date().toLocaleString()}`);
+            cluster.fork()
+      })
+} else {
+      httpServer.listen(PUERTO, (err) => {
+            if (!err) console.log(`PID Worker ${process.pid}. Servidor escuchando en puerto ${PUERTO}`);
+      });
+      httpServer.on('error', error => console.log(`Error en el servidor ${error}`))
+}
 
 //--------------------TEMPLATES---------------------//
 app.set('view engine', 'ejs');
@@ -58,40 +93,41 @@ app.use(session({
             maxAge: parseInt(env.TIEMPO_EXPIRACION)
       }
 }))
-
+//compresion GZIP
+app.use(compression())
 //RUTAS
 app.use("/test", test);
 
 //---------------------------------------ENDPOINTS---------------------------------------------//
-//INDEX
-app.get('/', routes.getRoot)
+//AUTH
+app.get('/', auth.getRoot)
 
-//SIGNUP
-app.get('/signup', routes.getSignup)
-app.post('/signup', routes.checkUser, routes.postSignup);
-app.get('/failsignup', routes.getFailsignup);
 
-//LOGIN
-app.post('/login', routes.checkAuthentication, routes.postLogin);
-app.get('/faillogin', routes.getFailLogin);
+app.get('/signup', auth.getSignup)
+app.post('/signup', auth.checkUser, auth.postSignup);
+app.get('/failsignup', auth.getFailsignup);
 
-//LOGOUT
-app.get('/logout', routes.getLogout);
+
+app.post('/login', auth.checkAuthentication, auth.postLogin);
+app.get('/faillogin', auth.getFailLogin);
+
+
+app.get('/logout', auth.getLogout);
 
 // info
-app.get('/info', routes.getInfo)
-//randoms
+app.get('/info', info.getInfo)
+
+//randoms (Child process)
 app.get('/api/randoms', randoms.getRandoms)
 
 //  FAIL ROUTE
-app.get('*', routes.failRoute);
+app.get('*', auth.failRoute);
 
 
 //------------------------------SOCKETS-----------------------------//
 io.on('connection', async (socket) => {
       const mensajes = await listarMensajesNormalizados();
       const productos = await dbProductos.getAll().then((result) => {return result})   
-      console.log('Un cliente se ha conectado');
       io.sockets.emit('productos', productos);
       io.sockets.emit('mensajes', mensajes);
       socket.on('new-message', async data => {
@@ -107,11 +143,14 @@ io.on('connection', async (socket) => {
 
 
 
-//----------------Se inicia el servidor---------------------//
-httpServer.listen(PUERTO, function() {
-      console.log(`Servidor corriendo en puerto ${PUERTO}`);
-});
-httpServer.on('error', error => console.log(`Error en el servidor ${error}`))
+
+
+
+
+
+            
+
+
 
 
 

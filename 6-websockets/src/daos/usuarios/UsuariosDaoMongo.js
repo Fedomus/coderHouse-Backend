@@ -44,8 +44,6 @@ class UsuariosDaoMongo extends ContainerMongo {
                         console.log('Hubo un error al guardar el usuario en la base de datos');
                         return
                   }
-                  console.log('Usuario creado');
-                  console.log(userWithId);
             })
       }
 
