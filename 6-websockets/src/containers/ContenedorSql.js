@@ -1,3 +1,5 @@
+const logger = require('../../logger')
+
 class ContenedorSql{
 
       constructor(knex, tabla){
@@ -7,7 +9,7 @@ class ContenedorSql{
 
       async save(elem) {
             await this.knex(this.tabla).insert(elem)
-            .then(() => console.log('Elemento guardado'))
+            .then(() => logger.info('Elemento guardado'))
       }
 
       async getAll() {
@@ -15,7 +17,7 @@ class ContenedorSql{
             .then( (result) => {
                   return result
             }).catch((err) => {
-                  console.log(err);
+                  logger.warn(err);
             });
             return data;
       }
@@ -26,20 +28,20 @@ class ContenedorSql{
             .then( (elem) => {
                   return elem;
             })
-            .catch( () => {console.log('No se encontro elemento con ese id');})
+            .catch( (err) => {logger.error(err);})
       }
 
       async deleteById(id) {
             await this.knex(this.tabla)
             .where({id: id})
             .del()
-            .then(() => console.log('Elemento eliminado'))
-            .catch(() => console.log('No existe elemento cono ese ID'));
+            .then(() => logger.info('Elemento eliminado'))
+            .catch((err) => logger.error(err));
       }
 
       async deleteAll() {
             await this.knex(this.tabla).del()
-            .then(() => console.log('Se eliminaron todos los registros'))
+            .then(() => logger.info('Se eliminaron todos los registros'))
       }
 
 }

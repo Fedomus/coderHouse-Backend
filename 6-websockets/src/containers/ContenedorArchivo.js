@@ -1,5 +1,5 @@
-const fs = require('fs')
-
+const fs = require('fs');
+const logger = require('../../logger')
 
 class ContainerArchivo{
 
@@ -7,11 +7,11 @@ class ContainerArchivo{
             this.filePath = filePath;
       }
       
-      saveData(data) {
+      async saveData(data) {
             fs.writeFileSync(this.filePath, JSON.stringify(data, null, '\t'));
       }
 
-      getData() {
+      async getData() {
             let content = [];
             try {
                   let file = fs.readFileSync(this.filePath, 'utf-8');
@@ -19,27 +19,27 @@ class ContainerArchivo{
             } 
             catch (error) {
                   this.saveData(content);
-                  console.log(`Creacion del archivo ${this.filePath}`);
+                  logger.info(`Creacion del archivo ${this.filePath}`);
             }
             return content;
       }
 
-      getAll() {
+      async getAll() {
             let data = this.getData();
             return data;
       }
 
-      getById(id){
+      async getById(id){
             let data = this.getAll();
             let elem = data.find( e => e.id == id) || null;
             if (elem){
                   return elem;
             } else {
-                  console.log('No se encontro elemento con ese ID');
+                  logger.info('No se encontro elemento con ese ID');
             }
       }
 
-      deleteById(id){
+      async deleteById(id){
             let data = this.getAll();
             let elem = this.getById(id);
             if (elem) {
@@ -47,11 +47,11 @@ class ContainerArchivo{
                   data.splice(indice, 1);
                   this.saveData(data);
             } else {
-                  console.log('No se encontro carrito con ese ID');
+                  logger.info('No se encontro carrito con ese ID');
             }
       }
 
-      updateById(id, elem){
+      async updateById(id, elem){
             let data = this.getAll();
             let elemAnterior = this.getById(id);
             let indice = data.indexOf(elemAnterior)

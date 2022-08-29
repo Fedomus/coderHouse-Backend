@@ -44,29 +44,31 @@ const PUERTO = args.p
 const MODO = args.m
 const modoCluster = MODO == 'cluster'
 const numCPUs = require('os').cpus().length
-const enviroment = env.NODE_ENV
+
 // cluster
 const cluster = require('cluster')
-//compression
+//Middlewwares
 const compression = require('compression')
+//logger
+const logger = require('./logger')
 
 //----------------Se inicia el servidor en modo fork o cluster---------------------//
 
 if (modoCluster && cluster.isPrimary){
-      console.log(`Número de procesadores: ${numCPUs}`);
-      console.log(`PID Máster: ${process.pid}`);
+      logger.info(`Número de procesadores: ${numCPUs}`);
+      logger.info(`PID Máster: ${process.pid}`);
       for (let i = 0; i < numCPUs; i++) {
             cluster.fork()
       }
       cluster.on('exit', worker => {
-            console.log(`Worker ${worker.process.pid} died ${new Date().toLocaleString()}`);
+            logger.info(`Worker ${worker.process.pid} died ${new Date().toLocaleString()}`);
             cluster.fork()
       })
 } else {
       httpServer.listen(PUERTO, (err) => {
-            if (!err) console.log(`PID Worker ${process.pid}. Servidor escuchando en puerto ${PUERTO}`);
+            if (!err) logger.info(`PID Worker ${process.pid}. Servidor escuchando en puerto ${PUERTO}`);
       });
-      httpServer.on('error', error => console.log(`Error en el servidor ${error}`))
+      httpServer.on('error', error => logger.error(`Error en el servidor ${error}`))
 }
 
 //--------------------TEMPLATES---------------------//
@@ -127,7 +129,8 @@ app.get('*', auth.failRoute);
 //------------------------------SOCKETS-----------------------------//
 io.on('connection', async (socket) => {
       const mensajes = await listarMensajesNormalizados();
-      const productos = await dbProductos.getAll().then((result) => {return result})   
+      const productos = await dbProductos.getAll().then((result) => {return result})  
+      logger.info('Nuevo cliente conectado') 
       io.sockets.emit('productos', productos);
       io.sockets.emit('mensajes', mensajes);
       socket.on('new-message', async data => {
@@ -139,7 +142,7 @@ io.on('connection', async (socket) => {
             await dbProductos.save(data);
             io.sockets.emit('productos', productos);
       });
-})
+});
 
 
 

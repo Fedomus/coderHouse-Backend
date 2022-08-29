@@ -1,5 +1,6 @@
 const ContenedorSql = require('../../containers/ContenedorSql')
-const {knexProductos} = require('../../../options/mariadb.js')
+const {knexProductos} = require('../../../options/mariadb.js');
+const logger = require('../../../logger')
 
 class ProductosDaoSql extends ContenedorSql {
 
@@ -20,8 +21,8 @@ class ProductosDaoSql extends ContenedorSql {
             await this.knex(this.tabla)
             .where({id: id})
             .update({nombre: nombre, precio: precio, foto: foto})
-            .then(() => console.log('Producto actualizado'))
-            .catch(()=> console.log('No se encontro producto con ese ID'));
+            .then(() => logger.info('Producto actualizado'))
+            .catch(()=> logger.info('No se encontro producto con ese ID'));
       }
 
 }

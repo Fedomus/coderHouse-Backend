@@ -6,7 +6,7 @@ class MensajesDaoArchivo extends ContenedorArchivo {
             super('./src/data/mensajes.json')
       }
 
-      save(texto, user) {
+      async save(texto, user) {
             let mensajes = this.getAll();
             let mensaje = 
             {
