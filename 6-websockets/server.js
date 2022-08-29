@@ -41,7 +41,7 @@ const options = {
       }
   };
 const args = parseArgs(process.argv.slice(2), options)
-const PUERTO = args.p
+const PUERTO = process.env.PORT || args.p
 const MODO = args.m
 const modoCluster = MODO == 'cluster'
 const numCPUs = require('os').cpus().length
