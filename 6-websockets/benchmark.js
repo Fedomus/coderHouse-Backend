@@ -18,6 +18,5 @@ function run(url){
       })
 }
 console.log("Running all benchmarks in parallel");
-run('http://localhost:8080/api/randoms')
-run('http://localhost:8080/api/randoms?cant=20')
+run('http://localhost:8080/info')
 

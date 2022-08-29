@@ -6,7 +6,7 @@ const { Server: IOServer } = require('socket.io')
 const app = express()
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
-const env = require('./src/config/globals')
+
 //Sesion
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -28,6 +28,7 @@ const ProductosDaoSql = require("./src/daos/productos/ProductosDaoSql");
 const dbProductos = new ProductosDaoSql();
 const {listarMensajesNormalizados} = require('./src/normalizacion/normalizacionMensajes')
 //Global process
+const env = require('./src/config/globals')
 const parseArgs = require('minimist');
 const options = {
       alias: {
@@ -44,13 +45,18 @@ const PUERTO = args.p
 const MODO = args.m
 const modoCluster = MODO == 'cluster'
 const numCPUs = require('os').cpus().length
-
 // cluster
 const cluster = require('cluster')
 //Middlewwares
 const compression = require('compression')
 //logger
-const logger = require('./logger')
+const log4js = require('./logger')
+let logger;
+if (env.NODE_ENV == 'production'){
+      logger = log4js.getLogger('warn')
+} else {
+      logger = log4js.getLogger()
+}
 
 //----------------Se inicia el servidor en modo fork o cluster---------------------//
 
@@ -97,6 +103,13 @@ app.use(session({
 }))
 //compresion GZIP
 app.use(compression())
+
+//Loggeo de ruta y metodo de todas las peticiones hechas al servidor
+app.use((req, res, next) => {
+      logger.info(`${req.originalUrl}, ${req.method}, ${new Date().toLocaleString()}`)
+      next()
+})
+
 //RUTAS
 app.use("/test", test);
 
@@ -123,7 +136,9 @@ app.get('/info', info.getInfo)
 app.get('/api/randoms', randoms.getRandoms)
 
 //  FAIL ROUTE
-app.get('*', auth.failRoute);
+app.get('*', (req, res, next) => {
+      logger.warn(`${req.url}, ${req.method}, ${new Date().toLocaleString()}`)
+}, auth.failRoute);
 
 
 //------------------------------SOCKETS-----------------------------//
